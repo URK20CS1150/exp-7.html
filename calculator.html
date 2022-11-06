@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript">
+        function FrmController($scope){
+            $scope.comment = [];
+            $scope.btn_add = function(){
+                if ($scope.txtcomment != ""){
+                    $scope.comment.push($scope.txtcomment);
+                    $scope.txtcomment = "";
+                }
+            }
+            $scope.remItem = function($index){
+                $scope.comment.splice($index, 1);
+            }
+        };
+    </script>
+    <script>
+        var app = angular.module("myapp",[]);
+        app.controller("mycontrol",function($scope){
+            $scope.result = function(){
+                if($scope.operator == '+'){
+                    return $scope.a + $scope.b;
+                }
+                if($scope.operator == '-'){
+                    return $scope.a - $scope.b;
+                }
+                if($scope.operator == '*'){
+                    return $scope.a * $scope.b;
+                }
+                if($scope.operator == '/'){
+                    return $scope.a / $scope.b;
+                }
+            }
+        })
+    </script>
+</head>
+<body ng-app="myapp" ng-controller="mycontrol">
+    <div class="comment" ng-app="">
+        <form ng-controller="FrmController">
+            Post Your Comment <br>
+            <textarea ng-model="txtcomment" placeholder="Your Comment" style="width: 550px;"></textarea>
+            <br>
+            <button ng-click="btn_add();" style="margin-top: 10px;">
+                Post Comment
+            </button>
+            <h4>Comments</h4>
+            <ul>
+                <li ng-repeat="comnt in comment">{{comnt}}
+                    <a href="" ng-click="remItem($index)" style="float: right;">x</a>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="calc">
+        <p><input type="number" ng-model="a"></p>
+        <p><input type="number" ng-model="b"></p>
+        <p><select ng-model="operator">
+            <option>+</option>
+            <option>*</option>
+            <option>-</option>
+            <option>/</option>
+        </select></p>
+
+        <p>{{ result() }}</p>
+    </div>
+</body>
+</html>
